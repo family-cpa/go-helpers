@@ -38,7 +38,6 @@ func Decode(headers map[string][]string) *Fingerprint {
 			if values[0] == "*/*" {
 				result.AcceptAny = true
 			}
-			result.AppName = values[0]
 		} else if h == "x-real-ip" {
 			result.IP = values[0]
 		}
