@@ -8,6 +8,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/joho/godotenv v1.5.1
 	github.com/mileusna/useragent v1.3.4
+	github.com/thewizardplusplus/go-writable-fs v1.1.0
 	github.com/vektah/gqlparser/v2 v2.5.16
 )
 
