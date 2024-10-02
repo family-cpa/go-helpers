@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"io"
 	"net/url"
 	"strings"
 )
@@ -18,7 +19,7 @@ type S3 struct {
 }
 
 type Upload struct {
-	File        []byte
+	File        io.ReadSeeker
 	Filename    string
 	Size        int64
 	ContentType string
@@ -54,12 +55,17 @@ func NewS3FromUrl(dsn string) (Storage, error) {
 }
 
 func (s *S3) UploadFile(key string, upload Upload) error {
-	_, err := s3.New(s.session).PutObject(&s3.PutObjectInput{
+	buf, err := io.ReadAll(upload.File)
+	if err != nil {
+		return err
+	}
+
+	_, err = s3.New(s.session).PutObject(&s3.PutObjectInput{
 		Bucket:        aws.String(s.bucket),
 		Key:           aws.String(key),
-		Body:          bytes.NewReader(upload.File),
+		Body:          bytes.NewReader(buf),
 		ContentType:   aws.String(upload.ContentType),
-		ContentLength: aws.Int64(int64(len(upload.File))),
+		ContentLength: aws.Int64(int64(len(buf))),
 	})
 
 	return err
