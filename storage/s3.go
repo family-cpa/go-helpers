@@ -44,7 +44,7 @@ func NewS3FromUrl(dsn string) (Storage, error) {
 	sess, err := session.NewSession(&aws.Config{
 		Credentials:      credentials.NewStaticCredentials(u.User.Username(), password, ""),
 		S3ForcePathStyle: aws.Bool(true),
-		Endpoint:         aws.String(u.Scheme + "//" + u.Host),
+		Endpoint:         aws.String(u.Scheme + "://" + u.Host),
 		Region:           aws.String("ru-1"),
 	})
 	if err != nil {
