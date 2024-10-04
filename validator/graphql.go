@@ -54,6 +54,8 @@ func translate(fe validator.FieldError) string {
 	switch fe.Tag() {
 	case "required":
 		return "field is required"
+	case "required_if":
+		return "field is required"
 	case "min":
 		return "must be at least " + fe.Param()
 	case "max":
